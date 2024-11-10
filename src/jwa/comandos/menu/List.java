@@ -1,5 +1,7 @@
-package jwa.comandos;
+package jwa.comandos.menu;
 
+import jwa.comandos.Comando;
+import jwa.estruturas.ListaEncadeada;
 import jwa.io.GerenciadorDeArquivo;
 
 public class List implements Comando {
@@ -10,10 +12,18 @@ public class List implements Comando {
     }
 
     @Override
-    public void executar(String[] parametros) {
+    public void executar(ListaEncadeada<String> parametros) throws RuntimeException {
         avaliar();
 
-        gerenciador.exibirInstrucoes();
+        var instrucoes = gerenciador.getInstrucoes();
+
+        for (int i = 1; i <= instrucoes.getSize(); i++) {
+            System.out.printf(
+                    "[%d] %s%n",
+                    i,
+                    instrucoes.get(i).getData()
+            );
+        }
     }
 
     private void avaliar() {

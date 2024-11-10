@@ -1,5 +1,7 @@
 package jwa.comandos;
 
+import jwa.estruturas.ListaEncadeada;
+
 public interface Comando {
-    void executar(String[] parametros) throws RuntimeException;
+    void executar(ListaEncadeada<String> parametros) throws RuntimeException;
 }

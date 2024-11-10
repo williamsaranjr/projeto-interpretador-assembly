@@ -1,4 +1,4 @@
-package jwa.comandos;
+package jwa.comandos.menu;
 
 import jwa.utils.StringUtils;
 

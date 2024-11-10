@@ -1,6 +1,8 @@
 package jwa.menu;
 
 import jwa.comandos.*;
+import jwa.comandos.menu.*;
+import jwa.estruturas.ListaEncadeada;
 import jwa.io.GerenciadorDeArquivo;
 import jwa.utils.StringUtils;
 
@@ -34,7 +36,9 @@ public class Menu {
         try {
             Comando executavel = getComando(opcao);
 
-            executavel.executar(opcao.split(StringUtils.ESPACO));
+            ListaEncadeada<String> instrucoes = getInstrucoes(opcao);
+
+            executavel.executar(instrucoes);
         } catch (RuntimeException excecao) {
             System.out.println(excecao.getMessage());
         }
@@ -44,6 +48,16 @@ public class Menu {
     private String lerEntrada() {
         System.out.print(">> ");
         return scanner.nextLine().trim().toUpperCase();
+    }
+
+    private ListaEncadeada<String> getInstrucoes(String comando) {
+        var lista = new ListaEncadeada<String>();
+
+        for (String instrucao: comando.split(StringUtils.ESPACO)) {
+            lista.addLast(instrucao);
+        }
+
+        return lista;
     }
 
     private Comando getComando(String parametros) throws ComandoInvalidoException {
@@ -68,7 +82,7 @@ public class Menu {
         hashmap.put("INS", new Insert(gerenciadorDeArquivo));
         hashmap.put("DEL", new Delete(gerenciadorDeArquivo));
         hashmap.put("SAVE", new Save(gerenciadorDeArquivo));
-        hashmap.put("EXIT", new Exit());
+        hashmap.put("EXIT", new Exit(gerenciadorDeArquivo));
 
         return hashmap;
     }
